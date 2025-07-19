@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet, manifest"  href="style.css, manifest.json">
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBkIw2U84zD-ruG76hgTjRlyNjrQ4Y0lJs",
+    authDomain: "snake-scoreboard-76c13.firebaseapp.com",
+    databaseURL: "https://snake-scoreboard-76c13-default-rtdb.firebaseio.com",
+    projectId: "snake-scoreboard-76c13",
+    storageBucket: "snake-scoreboard-76c13.firebasestorage.app",
+    messagingSenderId: "534325679195",
+    appId: "1:534325679195:web:d7311d67bfc5a5c4c31b7e",
+    measurementId: "G-GJBZR3JSPJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+  const firebaseConfig = { ... };
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+    <div class="container">
+        <header class="game-header">
+            <h1 class="game-title">Snake Game</h1>
+            <div class="score-display">
+                <div class="score-item">
+                    <span class="score-label">Score</span>
+                    <span class="score-value" id="currentScore">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">High Score</span>
+                    <span class="score-value score-highlight" id="highScore">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <div class="game-container">
+                <canvas id="gameCanvas" width="480" height="360"></canvas>
+                
+                <!-- Start Screen -->
+                <div class="game-overlay" id="startScreen">
+                    <div class="overlay-content">
+                        <h2 class="overlay-title">Ready to Play?</h2>
+                        <p class="overlay-text">Use arrow keys or WASD to control the snake</p>
+                        <p class="overlay-text mobile-hint">Use swipe gestures on mobile</p>
+                        <button class="btn btn--primary btn--lg" id="startButton">Start Game</button>
+                    </div>
+                </div>
+
+                <!-- Pause Screen -->
+                <div class="game-overlay hidden" id="pauseScreen">
+                    <div class="overlay-content">
+                        <h2 class="overlay-title">Game Paused</h2>
+                        <p class="overlay-text">Press SPACE to resume</p>
+                        <button class="btn btn--primary btn--lg" id="resumeButton">Resume</button>
+                    </div>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div class="game-overlay hidden" id="gameOverScreen">
+                    <div class="overlay-content">
+                        <h2 class="overlay-title game-over">Game Over!</h2>
+                        <div class="final-score">
+                            <span class="final-score-label">Final Score</span>
+                            <span class="final-score-value" id="finalScore">0</span>
+                        </div>
+                        <div class="high-score-notice hidden" id="highScoreNotice">
+                            <span class="achievement-text">🎉 New High Score! 🎉</span>
+                        </div>
+                        <button class="btn btn--primary btn--lg" id="restartButton">Play Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-info">
+                <div class="info-section">
+                    <div class="info-item">
+                        <span class="info-label">Level</span>
+                        <span class="info-value" id="level">1</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Speed</span>
+                        <span class="info-value" id="speed">1.0x</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Length</span>
+                        <span class="info-value" id="length">1</span>
+                    </div>
+                </div>
+                
+                <div class="controls-info">
+                    <div class="control-item">
+                        <span class="control-key">←→↑↓</span>
+                        <span class="control-desc">Move</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">SPACE</span>
+                        <span class="control-desc">Pause</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">ENTER</span>
+                        <span class="control-desc">Restart</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Mobile Touch Controls -->
+        <div class="touch-controls mobile-only">
+            <div class="dpad">
+                <button class="dpad-btn dpad-up" data-direction="up">↑</button>
+                <div class="dpad-middle">
+                    <button class="dpad-btn dpad-left" data-direction="left">←</button>
+                    <div class="dpad-center"></div>
+                    <button class="dpad-btn dpad-right" data-direction="right">→</button>
+                </div>
+                <button class="dpad-btn dpad-down" data-direction="down">↓</button>
+            </div>
+            <div class="mobile-actions">
+                <button class="btn btn--outline" id="mobilePause">Pause</button>
+                <button class="btn btn--outline" id="mobileRestart">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
